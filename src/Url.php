@@ -4,18 +4,6 @@ namespace Compass;
 
 use Compass\Exception\InvalidUrlException;
 
-/**
- *
- *          |--------------------------------------absolute url-----------------------------------|
- *          |                                                                                     |
- *          |----------------base url----------------|------------------relative url--------------|
- *          |                                        |                                            |
- *          |                   authority            |          path            query    fragment |
- *          |      /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\ /‾‾‾‾‾‾‾‾‾\ /‾‾‾‾‾‾\ |
- *          http://grigor:password@vinograd.soft:8080/path/to/resource.json?query=value#fragment
- *          \__/   \___/  \_____/  \___________/ \__/                 \___/
- *         scheme  user   password     host      port                 suffix
- */
 class Url extends AbstractPath
 {
     /**
@@ -32,22 +20,22 @@ class Url extends AbstractPath
     const SUFFIX = ':suffix';
 
     /**
-     * key state
+     * state keys
      */
     const USER_STATE = 1 << 0;
     const PASSWORD_STATE = 1 << 1;
     const HOST_STATE = 1 << 2;
-    const PORT_KEY = 1 << 3;
+    const PORT_STATE = 1 << 3;
 
     const PATH_STATE = 1 << 0;
     const QUERY_STATE = 1 << 1;
-    const FRAGMENT_KEY = 1 << 2;
+    const FRAGMENT_STATE = 1 << 2;
 
-    const AUTHORITY_WHOLE = self::USER_STATE | self::PASSWORD_STATE | self::HOST_STATE | self::PORT_KEY;
-    const RELATIVE_URL_WHOLE = self::PATH_STATE | self::QUERY_STATE | self::FRAGMENT_KEY;
+    const AUTHORITY_WHOLE = self::USER_STATE | self::PASSWORD_STATE | self::HOST_STATE | self::PORT_STATE;
+    const RELATIVE_URL_WHOLE = self::PATH_STATE | self::QUERY_STATE | self::FRAGMENT_STATE;
 
     /**
-     * current state
+     * current states
      */
     protected int $authoritySate = self::AUTHORITY_WHOLE;
     protected int $relativeUrlState = self::RELATIVE_URL_WHOLE;
@@ -90,7 +78,7 @@ class Url extends AbstractPath
     {
         $this->isIdnToAscii = $isIdnToAscii;
         $this->updateStrategy = $updateStrategy ?? new DefaultUrlStrategy();
-        $this->path = Path::createBlank($this->updateStrategy);
+        $this->path = Path::createBlank('/', $this->updateStrategy);
         $this->urlQuery = Query::createBlank($this->updateStrategy);
         return $this;
     }
@@ -155,7 +143,7 @@ class Url extends AbstractPath
         $this->authoritySate &= ~self::PASSWORD_STATE;
         $this->relativeUrlState &= ~self::QUERY_STATE;
         $this->relativeUrlState &= ~self::PATH_STATE;
-        $this->relativeUrlState &= ~self::FRAGMENT_KEY;
+        $this->relativeUrlState &= ~self::FRAGMENT_STATE;
     }
 
     /**
@@ -209,7 +197,7 @@ class Url extends AbstractPath
     {
         $this->relativeUrlState &= ~self::QUERY_STATE;
         $this->relativeUrlState &= ~self::PATH_STATE;
-        $this->relativeUrlState &= ~self::FRAGMENT_KEY;
+        $this->relativeUrlState &= ~self::FRAGMENT_STATE;
         $this->relativeUrl = null;
         $this->path->reset();
         $this->urlQuery->reset();
@@ -248,7 +236,7 @@ class Url extends AbstractPath
 
         if (isset($data['port'])) {
             $this->items[self::PORT] = $data['port'];
-            $this->authoritySate &= ~self::PORT_KEY;
+            $this->authoritySate &= ~self::PORT_STATE;
         }
 
         if (isset($data['path'])) {
@@ -263,7 +251,7 @@ class Url extends AbstractPath
 
         if (isset($data['fragment'])) {
             $this->items[self::FRAGMENT] = rawurldecode($data['fragment']);
-            $this->relativeUrlState &= ~self::FRAGMENT_KEY;
+            $this->relativeUrlState &= ~self::FRAGMENT_STATE;
         }
 
         if (!isset($data['host']) && !isset($data['scheme'])) {
@@ -321,7 +309,7 @@ class Url extends AbstractPath
     public function setPort(string $port): static
     {
         $this->items[self::PORT] = $port;
-        $this->authoritySate &= ~self::PORT_KEY;
+        $this->authoritySate &= ~self::PORT_STATE;
         return $this;
     }
 
@@ -367,7 +355,7 @@ class Url extends AbstractPath
         $this->authoritySate &= ~self::PASSWORD_STATE;
         $this->relativeUrlState &= ~self::QUERY_STATE;
         $this->relativeUrlState &= ~self::PATH_STATE;
-        $this->relativeUrlState &= ~self::FRAGMENT_KEY;
+        $this->relativeUrlState &= ~self::FRAGMENT_STATE;
 
         if (empty($items)) {
             $this->reset();
@@ -445,7 +433,7 @@ class Url extends AbstractPath
     public function setFragment(string $fragment): static
     {
         $this->items[self::FRAGMENT] = $fragment;
-        $this->relativeUrlState &= ~self::FRAGMENT_KEY;
+        $this->relativeUrlState &= ~self::FRAGMENT_STATE;
         return $this;
     }
 

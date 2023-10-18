@@ -63,7 +63,7 @@ class DefaultUrlStrategy implements UrlStrategy
     /**
      * @inheritDoc
      */
-    public function updatePath(array $items, ?string $suffix = null): string
+    public function updatePath(array $items, string $separator, ?string $suffix = null): string
     {
         if (empty($items)) {
             return '';

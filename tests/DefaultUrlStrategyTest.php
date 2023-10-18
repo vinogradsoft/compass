@@ -8,7 +8,7 @@ use Compass\Url;
 use Compass\Path;
 use Compass\Query;
 
-class DefaultUpdateStrategyTest extends TestCase
+class DefaultUrlStrategyTest extends TestCase
 {
     /**
      * @dataProvider getItems
@@ -109,7 +109,7 @@ class DefaultUpdateStrategyTest extends TestCase
     public function testUpdateRelativeUrl(array $items, string $pathString, string $queryString, string $expected)
     {
         $updateStrategy = new DefaultUrlStrategy();
-        $path = Path::createBlank($updateStrategy);
+        $path = Path::createBlank('/', $updateStrategy);
         if (!empty($pathString)) {
             $path->setSource($pathString);
         }
@@ -141,7 +141,7 @@ class DefaultUpdateStrategyTest extends TestCase
     {
         $updateStrategy = new DefaultUrlStrategy();
 
-        $path = Path::createBlank($updateStrategy);
+        $path = Path::createBlank('/', $updateStrategy);
         $query = Query::createBlank($updateStrategy);
 
         $result = $updateStrategy->updateAbsoluteUrl(
@@ -172,7 +172,7 @@ class DefaultUpdateStrategyTest extends TestCase
     public function testUpdatePath(array $items, ?string $suffix, string $expected)
     {
         $updateStrategy = new DefaultUrlStrategy();
-        $result = $updateStrategy->updatePath($items, $suffix);
+        $result = $updateStrategy->updatePath($items, '/', $suffix);
         self::assertEquals($expected, $result);
     }
 
