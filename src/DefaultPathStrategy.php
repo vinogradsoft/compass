@@ -7,11 +7,11 @@ class DefaultPathStrategy implements PathStrategy
     /**
      * @inheritDoc
      */
-    public function updatePath(array $items, ?string $suffix = null): string
+    public function updatePath(array $items, string $separator, ?string $suffix = null): string
     {
         if (empty($items)) {
             return '';
         }
-        return $suffix ? implode('/', $items) . $suffix : implode('/', $items);
+        return $suffix ? implode($separator, $items) . $suffix : implode($separator, $items);
     }
 }

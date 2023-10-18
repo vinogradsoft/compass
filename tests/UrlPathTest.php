@@ -18,7 +18,7 @@ class UrlPathTest extends TestCase
         self::assertEquals($path, $urlPath->getSource());
         self::assertInstanceOf(DefaultPathStrategy::class, $urlPath->getStrategy());
 
-        $urlPath = new Path($path, $strategy = new DummyUrlStrategy());
+        $urlPath = new Path($path, '/', $strategy = new DummyUrlStrategy());
         self::assertSame($strategy, $urlPath->getStrategy());
     }
 
@@ -31,7 +31,7 @@ class UrlPathTest extends TestCase
     public function testGetSeparator()
     {
         $updateStrategy = $this->getMockForAbstractClass(UrlStrategy::class);
-        $urlPath = new Path('path', $updateStrategy);
+        $urlPath = new Path('path', '/', $updateStrategy);
         self::assertEquals('/', $urlPath->getSeparator());
     }
 
@@ -39,7 +39,7 @@ class UrlPathTest extends TestCase
     {
         $updateStrategy = $this->getMockForAbstractClass(UrlStrategy::class);
         $updateStrategy2 = $this->getMockForAbstractClass(UrlStrategy::class);
-        $urlPath = new Path('path', $updateStrategy);
+        $urlPath = new Path('path', '/', $updateStrategy);
         $reflection = new \ReflectionObject($urlPath);
         $property = $reflection->getProperty('strategy');
         $property->setAccessible(true);
@@ -56,14 +56,14 @@ class UrlPathTest extends TestCase
     {
         $updateStrategy = $this->getMockForAbstractClass(UrlStrategy::class);
         $updateStrategy2 = $this->getMockForAbstractClass(UrlStrategy::class);
-        $urlPath = new Path('path', $updateStrategy);
+        $urlPath = new Path('path', '/', $updateStrategy);
         self::assertFalse($urlPath->equalsStrategy($updateStrategy2));
         self::assertTrue($urlPath->equalsStrategy($updateStrategy));
     }
 
     public function testEqualsSuffix()
     {
-        $urlPath = new Path('path');
+        $urlPath = new Path('path', '/');
         $urlPath->setSuffix('suff1');
         self::assertFalse($urlPath->equalsSuffix('suff'));
         self::assertTrue($urlPath->equalsSuffix('suff1'));
@@ -75,7 +75,7 @@ class UrlPathTest extends TestCase
 
     public function testGetSuffix()
     {
-        $urlPath = new Path('path');
+        $urlPath = new Path('path', '/');
         self::assertEmpty($urlPath->getSuffix());
         $urlPath->setSuffix('suff');
         self::assertEquals('suff', $urlPath->getSuffix());
@@ -84,7 +84,7 @@ class UrlPathTest extends TestCase
 
     public function testSetSuffix()
     {
-        $urlPath = new Path('path');
+        $urlPath = new Path('path', '/');
         $urlPath->setSuffix(null);
         self::assertEmpty($urlPath->getSuffix());
         $urlPath->setSuffix('suff');
@@ -95,7 +95,7 @@ class UrlPathTest extends TestCase
 
     public function testUpdateSource()
     {
-        $urlPath = new Path('assert/update/');
+        $urlPath = new Path('assert/update/', '/');
         self::assertEquals('assert/update', (string)$urlPath);
         $urlPath->updateSource();
         self::assertEquals('assert/update', (string)$urlPath);
@@ -103,7 +103,7 @@ class UrlPathTest extends TestCase
 
     public function testReset()
     {
-        $urlPath = new Path('assert/update/');
+        $urlPath = new Path('assert/update/', '/');
         $urlPath->setSuffix('suff');
 
         $urlPath->reset();
@@ -115,7 +115,7 @@ class UrlPathTest extends TestCase
 
     public function testSetSource()
     {
-        $urlPath = new Path('assert/update/');
+        $urlPath = new Path('assert/update/', '/');
         self::assertEquals('assert/update', (string)$urlPath);
         $urlPath->setSource('assert2/update2/');
         self::assertEquals('assert2/update2', (string)$urlPath);
@@ -127,7 +127,7 @@ class UrlPathTest extends TestCase
 
     public function testSetSourceEmpty()
     {
-        $urlPath = new Path('assert/update/');
+        $urlPath = new Path('assert/update/', '/');
         self::assertEquals('assert/update', (string)$urlPath);
         $urlPath->setSource('');
         self::assertEmpty((string)$urlPath);
@@ -150,7 +150,7 @@ class UrlPathTest extends TestCase
         self::assertEmpty($urlPath->getAll());
         self::assertEmpty($urlPath->getSuffix());
 
-        $urlPath2 = Path::createBlank($updateStrategy = new DummyUrlStrategy());
+        $urlPath2 = Path::createBlank('/', $updateStrategy = new DummyUrlStrategy());
         self::assertSame($updateStrategy, $urlPath2->getStrategy());
         self::assertEmpty($urlPath2->getSource());
         self::assertEmpty($urlPath2->getAll());

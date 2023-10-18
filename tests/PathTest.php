@@ -45,6 +45,16 @@ class PathTest extends TestCase
         $path->updateSource();
         self::assertEquals('/sUserUserrc/UserScanner/DriverUser/FiUser2le', $path->getSource());
         self::assertEquals('UserScanner', $path->get(2));
+
+        $path = new Path('\\s__NAME____NAME__rc\\__NAME__Scanner\\Driver__NAME__\\Fi__NAME2__le\\', '\\');
+
+        $path->replaceAll([
+            '__NAME__' => 'User',
+            '__NAME2__' => 'User2',
+        ]);
+        $path->updateSource();
+        self::assertEquals('\\sUserUserrc\\UserScanner\\DriverUser\\FiUser2le', $path->getSource());
+        self::assertEquals('UserScanner', $path->get(2));
     }
 
     /**
@@ -73,11 +83,12 @@ class PathTest extends TestCase
      * @param $source
      * @param $currentValue
      * @param $newValue
+     * @param $separator
      * @param $expect
      */
-    public function testSetBy($source, $currentValue, $newValue, $expect)
+    public function testSetBy($source, $currentValue, $newValue, $separator, $expect)
     {
-        $path = new Path($source);
+        $path = new Path($source, $separator);
         $path->setBy($currentValue, $newValue);
         $path->updateSource();
         self::assertEquals($expect, $path->getSource());
@@ -89,11 +100,14 @@ class PathTest extends TestCase
     public function getCasesSetBy(): array
     {
         return [
-            ['/src/Scanner/Driver/File/index.php', 'src', 'test', '/test/Scanner/Driver/File/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 'Scanner', 'test', '/src/test/Driver/File/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 'Driver', 'test', '/src/Scanner/test/File/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 'File', 'test', '/src/Scanner/Driver/test/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 'index.php', 'test', '/src/Scanner/Driver/File/test'],
+            ['src/Scanner/Driver/File/index.php', 'src', 'test', '/', 'test/Scanner/Driver/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 'src', 'test', '/', '/test/Scanner/Driver/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 'Scanner', 'test', '/', '/src/test/Driver/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 'Driver', 'test', '/', '/src/Scanner/test/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 'File', 'test', '/', '/src/Scanner/Driver/test/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 'index.php', 'test', '/', '/src/Scanner/Driver/File/test'],
+            ['c:\\src\\Scanner\\Driver\\File\\index.php', 'index.php', 'test', '\\', 'c:\\src\\Scanner\\Driver\\File\\test'],
+            ['c:\\src\\Scanner\\Driver\\File\\index.php', 'Driver', 'test', '\\', 'c:\\src\\Scanner\\test\\File\\index.php'],
         ];
     }
 
@@ -107,9 +121,9 @@ class PathTest extends TestCase
     /**
      * @dataProvider getCasesSetAll
      */
-    public function testSetAll($source, $newValue, $expect)
+    public function testSetAll($source, $newValue, $separator, $expect)
     {
-        $path = new Path($source);
+        $path = new Path($source, $separator);
         $path->setAll($newValue);
         $path->updateSource();
         self::assertEquals($expect, $path->getSource());
@@ -118,17 +132,18 @@ class PathTest extends TestCase
     public function getCasesSetAll(): array
     {
         return [
-            ['/src/Scanner/Driver/File/index.php', ['c:', 'method', 'getSeparator',], 'c:/method/getSeparator'],
-            ['/src/Scanner/Driver/File/index.php', ['', 'index.php', 'File',], '/index.php/File'],
+            ['/src/Scanner/Driver/File/index.php', ['c:', 'method', 'getSeparator',], '/', 'c:/method/getSeparator'],
+            ['/src/Scanner/Driver/File/index.php', ['', 'index.php', 'File',], '/', '/index.php/File'],
+            ['src\\Scanner\\Driver\\File\\index.php', ['c:', 'method', 'getSeparator',], '\\', 'c:\method\getSeparator'],
         ];
     }
 
     /**
      * @dataProvider getCasesSet
      */
-    public function testSet($source, $index, $newValue, $expect)
+    public function testSet($source, $index, $newValue, $separator, $expect)
     {
-        $path = new Path($source);
+        $path = new Path($source, $separator);
         $path->set($index, $newValue);
         $path->updateSource();
         self::assertEquals($expect, $path->getSource());
@@ -137,12 +152,20 @@ class PathTest extends TestCase
     public function getCasesSet(): array
     {
         return [
-            ['/src/Scanner/Driver/File/index.php', 0, 'test', 'test/src/Scanner/Driver/File/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 1, 'test', '/test/Scanner/Driver/File/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 2, 'test', '/src/test/Driver/File/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 3, 'test', '/src/Scanner/test/File/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 4, 'test', '/src/Scanner/Driver/test/index.php'],
-            ['/src/Scanner/Driver/File/index.php', 5, 'test', '/src/Scanner/Driver/File/test'],
+            ['src/Scanner/Driver/File/index.php', 0, 'test', '/', 'test/Scanner/Driver/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 0, 'test', '/', 'test/src/Scanner/Driver/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 1, 'test', '/', '/test/Scanner/Driver/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 2, 'test', '/', '/src/test/Driver/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 3, 'test', '/', '/src/Scanner/test/File/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 4, 'test', '/', '/src/Scanner/Driver/test/index.php'],
+            ['/src/Scanner/Driver/File/index.php', 5, 'test', '/', '/src/Scanner/Driver/File/test'],
+            ['\\src\\Scanner\\Driver\\File\\index.php', 0, 'test', '\\', 'test\\src\\Scanner\\Driver\\File\\index.php'],
+            ['\\src\\Scanner\\Driver\\File\\index.php', 1, 'test', '\\', '\\test\\Scanner\\Driver\\File\\index.php'],
+            ['\\src\\Scanner\\Driver\\File\\index.php', 2, 'test', '\\', '\\src\\test\\Driver\\File\\index.php'],
+            ['\\src\\Scanner\\Driver\\File\\index.php', 3, 'test', '\\', '\\src\\Scanner\\test\\File\\index.php'],
+            ['\\src\\Scanner\\Driver\\File\\index.php', 4, 'test', '\\', '\\src\\Scanner\\Driver\\test\\index.php'],
+            ['\\src\\Scanner\\Driver\\File\\index.php', 5, 'test', '\\', '\\src\\Scanner\\Driver\\File\\test'],
+            ['src\\Scanner\\Driver\\File\\index.php', 4, 'test', '\\', 'src\\Scanner\\Driver\\File\\test'],
         ];
     }
 

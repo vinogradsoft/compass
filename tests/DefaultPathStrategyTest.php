@@ -5,7 +5,7 @@ namespace Test;
 use Compass\DefaultPathStrategy;
 use PHPUnit\Framework\TestCase;
 
-class DefaultUrlPathStrategyTest extends TestCase
+class DefaultPathStrategyTest extends TestCase
 {
     /**
      * @dataProvider getData
@@ -13,7 +13,7 @@ class DefaultUrlPathStrategyTest extends TestCase
     public function testUpdatePath(array $items, ?string $suffix, $expected)
     {
         $strategy = new DefaultPathStrategy();
-        $path = $strategy->updatePath($items, $suffix);
+        $path = $strategy->updatePath($items, '/', $suffix);
         self::assertEquals($expected, $path);
     }
 

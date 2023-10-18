@@ -9,15 +9,17 @@ class Path extends AbstractPath
 
     protected PathStrategy $strategy;
     protected ?string $suffix = null;
+    protected string $separator;
 
     /**
      * @param string $source
+     * @param string $separator
      * @param PathStrategy|null $strategy
      */
-    public function __construct(string $source, ?PathStrategy $strategy = null)
+    public function __construct(string $source, string $separator = DIRECTORY_SEPARATOR, ?PathStrategy $strategy = null)
     {
         $this->assertNotEmpty($source);
-        $this->initUrlPath($strategy);
+        $this->initUrlPath($separator, $strategy);
         parent::__construct($source);
     }
 
@@ -33,20 +35,23 @@ class Path extends AbstractPath
     }
 
     /**
+     * @param string $separator
      * @param PathStrategy|null $strategy
      * @return $this
      */
-    protected function initUrlPath(?PathStrategy $strategy = null): static
+    protected function initUrlPath(string $separator, ?PathStrategy $strategy = null): static
     {
         $this->strategy = $strategy ?? new DefaultPathStrategy();
+        $this->separator = $separator;
         return $this;
     }
 
     /**
+     * @param string $separator
      * @param PathStrategy|null $strategy
      * @return static
      */
-    public static function createBlank(?PathStrategy $strategy = null): static
+    public static function createBlank(string $separator = DIRECTORY_SEPARATOR, ?PathStrategy $strategy = null): static
     {
         static $prototypePath;
         if (!$prototypePath instanceof Path) {
@@ -56,7 +61,7 @@ class Path extends AbstractPath
             $prototypePath->items = [];
             $prototypePath->source = '';
         }
-        return (clone $prototypePath)->initUrlPath($strategy);
+        return (clone $prototypePath)->initUrlPath($separator, $strategy);
     }
 
     /**
@@ -93,7 +98,7 @@ class Path extends AbstractPath
      */
     public function getSeparator(): string
     {
-        return '/';
+        return $this->separator;
     }
 
     /**
@@ -135,7 +140,7 @@ class Path extends AbstractPath
      */
     public function updateSource(): void
     {
-        $this->source = $this->strategy->updatePath($this->items, $this->suffix);
+        $this->source = $this->strategy->updatePath($this->items, $this->separator, $this->suffix);
     }
 
     /**
@@ -213,7 +218,8 @@ class Path extends AbstractPath
      */
     public function setBy(string $currentValue, string $newValue): void
     {
-        if (!$key = $this->getKey($currentValue)) {
+        $key = $this->getKey($currentValue);
+        if ($key === null) {
             throw new InvalidPathException(sprintf('You are trying to replace "%s" with "%s", but there is no such item in the path.', $currentValue, $newValue));
         }
         $this->items[$key] = $newValue;
