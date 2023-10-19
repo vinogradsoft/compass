@@ -65,6 +65,14 @@ class Path extends AbstractPath
     }
 
     /**
+     * @return string|null
+     */
+    public function getLast(): ?string
+    {
+        return $this->items[count($this->items) - 1] ?? null;
+    }
+
+    /**
      * @param PathStrategy $strategy
      */
     public function setStrategy(PathStrategy $strategy): void

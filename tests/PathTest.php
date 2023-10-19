@@ -34,6 +34,28 @@ class PathTest extends TestCase
         $path->get(-1);
     }
 
+    /**
+     * @dataProvider getCasesGet
+     */
+    public function testGetLast($source, $expect)
+    {
+        $path = new Path($source);
+        self::assertEquals($expect, $path->getLast());
+    }
+
+    /**
+     * @return array
+     */
+    public function getCasesGet(): array
+    {
+        return [
+            'standard' => ['/src/Scanner/Driver/File/index.php', 'index.php'],
+            'dot' => ['/src/Scanner/Driver/File/.php', '.php'],
+            'no dot' => ['/src/Scanner/Driver/File/name', 'name'],
+            'empty' => ['/', null],
+        ];
+    }
+
     public function testReplaceAll()
     {
         $path = new Path('/s__NAME____NAME__rc/__NAME__Scanner/Driver__NAME__/Fi__NAME2__le/');
