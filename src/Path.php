@@ -65,11 +65,19 @@ class Path extends AbstractPath
     }
 
     /**
+     * @param bool $withSuffix
      * @return string|null
      */
-    public function getLast(): ?string
+    public function getLast(bool $withSuffix = true): ?string
     {
-        return $this->items[count($this->items) - 1] ?? null;
+        $lastItem = $this->items[count($this->items) - 1] ?? null;
+        if ($lastItem === null) {
+            return null;
+        }
+        if ($withSuffix && !empty($this->suffix)) {
+            return $lastItem . $this->suffix;
+        }
+        return $lastItem;
     }
 
     /**

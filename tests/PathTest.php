@@ -37,10 +37,10 @@ class PathTest extends TestCase
     /**
      * @dataProvider getCasesGet
      */
-    public function testGetLast($source, $expect)
+    public function testGetLast($source, $withSuffix, $expect)
     {
         $path = new Path($source);
-        self::assertEquals($expect, $path->getLast());
+        self::assertEquals($expect, $path->getLast($withSuffix));
     }
 
     /**
@@ -49,10 +49,10 @@ class PathTest extends TestCase
     public function getCasesGet(): array
     {
         return [
-            'standard' => ['/src/Scanner/Driver/File/index.php', 'index.php'],
-            'dot' => ['/src/Scanner/Driver/File/.php', '.php'],
-            'no dot' => ['/src/Scanner/Driver/File/name', 'name'],
-            'empty' => ['/', null],
+            'standard' => ['/src/Scanner/Driver/File/index.php', true, 'index.php'],
+            'dot' => ['/src/Scanner/Driver/File/.php', true, '.php'],
+            'no dot' => ['/src/Scanner/Driver/File/name', true, 'name'],
+            'empty' => ['/', true, null],
         ];
     }
 

@@ -373,6 +373,7 @@ echo '<br>', $path; # newPath/newTo/file.v
 $path->replace('newPath','path');
 $path->updateSource();
 echo '<br>', $path; # path/newTo/file.v
+echo '<br>', $path->getLast(); # file.v
 ```
 
 ## Тестировать
