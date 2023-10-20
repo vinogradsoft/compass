@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Compass;
 
@@ -299,7 +300,7 @@ class Url extends AbstractPath
      */
     public function getPort(): ?string
     {
-        return !empty($this->items[self::PORT]) ? $this->items[self::PORT] : null;
+        return !empty($this->items[self::PORT]) ? (string)$this->items[self::PORT] : null;
     }
 
     /**

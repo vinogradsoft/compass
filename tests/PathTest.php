@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Test;
 
@@ -32,6 +33,28 @@ class PathTest extends TestCase
         $this->expectException(InvalidPathException::class);
         $path = new Path('/src/Scanner/Driver/File/');
         $path->get(-1);
+    }
+
+    /**
+     * @dataProvider getCasesGet
+     */
+    public function testGetLast($source, $withSuffix, $expect)
+    {
+        $path = new Path($source);
+        self::assertEquals($expect, $path->getLast($withSuffix));
+    }
+
+    /**
+     * @return array
+     */
+    public function getCasesGet(): array
+    {
+        return [
+            'standard' => ['/src/Scanner/Driver/File/index.php', true, 'index.php'],
+            'dot' => ['/src/Scanner/Driver/File/.php', true, '.php'],
+            'no dot' => ['/src/Scanner/Driver/File/name', true, 'name'],
+            'empty' => ['/', true, null],
+        ];
     }
 
     public function testReplaceAll()

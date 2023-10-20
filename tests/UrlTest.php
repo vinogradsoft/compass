@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Test;
 
@@ -248,7 +249,7 @@ class UrlTest extends TestCase
 
         $url->reset();
         $url->setSource('http://vinograd.ru');
-        $url->setPort(80);
+        $url->setPort('80');
         $url->updateSource();
         self::assertEquals('http://vinograd.ru:80', $url->getSource());
     }

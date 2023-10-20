@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Compass;
 
@@ -62,6 +63,22 @@ class Path extends AbstractPath
             $prototypePath->source = '';
         }
         return (clone $prototypePath)->initUrlPath($separator, $strategy);
+    }
+
+    /**
+     * @param bool $withSuffix
+     * @return string|null
+     */
+    public function getLast(bool $withSuffix = true): ?string
+    {
+        $lastItem = $this->items[count($this->items) - 1] ?? null;
+        if ($lastItem === null) {
+            return null;
+        }
+        if ($withSuffix && !empty($this->suffix)) {
+            return $lastItem . $this->suffix;
+        }
+        return $lastItem;
     }
 
     /**
