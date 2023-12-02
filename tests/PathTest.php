@@ -57,6 +57,29 @@ class PathTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider getCasesGetWithSuffix
+     */
+    public function testGetLastWithSuffix($source, $withSuffix, $suffix, $expect)
+    {
+        $path = new Path($source);
+        $path->setSuffix($suffix);
+        self::assertEquals($expect, $path->getLast($withSuffix));
+    }
+
+    /**
+     * @return array
+     */
+    public function getCasesGetWithSuffix(): array
+    {
+        return [
+            'standard' => ['/src/Scanner/Driver/File/index.php', true, '.old', 'index.php.old'],
+            'dot' => ['/src/Scanner/Driver/File/.php', true, '.old', '.php.old'],
+            'no dot' => ['/src/Scanner/Driver/File/name', true, '.old', 'name.old'],
+            'empty' => ['/', true, '.old', null],
+        ];
+    }
+
     public function testReplaceAll()
     {
         $path = new Path('/s__NAME____NAME__rc/__NAME__Scanner/Driver__NAME__/Fi__NAME2__le/');
