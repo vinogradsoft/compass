@@ -1,36 +1,33 @@
+[![codecov](https://codecov.io/gh/vinogradsoft/compass/graph/badge.svg?token=S1XRZ1GEY8)](https://codecov.io/gh/vinogradsoft/compass)
 # Compass
 
-> Compass - это библиотека, предназначенная для работы с URL-адресами и путями к файлам на жестком диске. В ее состав
-> входят инструменты для упрощения манипуляций с этими данными. Цель библиотеки - облегчить работу с URL-адресами и
-> данными о расположении файлов.
+> Compass is a library designed to work with URLs and hard disk file paths. It includes tools to simplify manipulation
+> of this data. The goal of the library is to facilitate working with URLs and data on file locations.
 
-## Общая информация
+## General information
 
-Compass может быть использован в различных PHP-приложениях для обработки путей к файлам и URL-адресов. Он включает в
-себя два основных компонента: `Compass\Path` и `Compass\Url`. Оба этих компонента представляют собой отдельные объекты
-и предлагают набор методов для простого манипулирования данными. `Compass\Path` предоставляет инструменты для работы с
-директориями, включая поиск, замену и проверку наличия директорий в строке пути, а также изменение их порядка. В свою
-очередь, `Compass\Url` обеспечивает возможности для работы с URL, позволяя создавать, получать и изменять различные
-части URL-адреса.
+Compass can be used in various PHP applications to process file paths and URLs. It includes two main components:
+`Compass\Path` and `Compass\Url`. Both of these components are separate objects and offer a set of methods for simple
+data manipulation. `Compass\Path` provides tools for working with directories, including finding, replacing, and
+checking for directories in a path string, as well as changing their order. In turn, `Compass\Url` provides capabilities
+for working with URLs, allowing you to create, retrieve, and modify various parts of a URL.
 
-Оба компонента работают по схожему принципу, сначала собирают необходимые параметры, а затем применяют их к результату с
-помощью специального метода `updateSource()`.
+Both components operate on a similar principle, first collecting the necessary parameters and then applying them to the
+result using a special `updateSource()` method.
 
-## Установка
+## Install
 
-Предпочтительный способ установки - через [composer](http://getcomposer.org/download/).
-
-Запустите команду
+To install with composer:
 
 ```
 php composer require vinogradsoft/compass "^1.0"
 ```
 
-Требуется PHP 8.0 или новее.
+Requires PHP 8.0 or newer.
 
-## Компонент URL
+## URL Component
 
-### Быстрый старт
+### Quick Start
 
 ```php
 <?php
@@ -64,46 +61,46 @@ $url->setConversionIdnToAscii(true)->updateSource();
 echo '<br><br><b>new URL:</b> ',$url; #http://xn--h1alffa9f.xn--p1ai
 ```
 
-### Создание экземпляра класса Compass\Url
+### Creating An Instance Of The Compass\Url Class
 
-Объект класса `Compass\Url` может быть создан путем вызова статического метода `createBlank()`, либо с помощью
-оператора `new`. Метод `createBlank` примечателен тем, что в своей работе применяет клонирование своего же
-прототипа. У данного метода есть два необязательных параметра: `$isIdnToAscii`, `$updateStrategy` - они определяют,
-будет ли происходить преобразование хоста в `punycode`, и какую стратегию обновления URL применять.
+The `Compass\Url` class can be instantiated by calling the static `createBlank()` method or by using the `new` operator.
+The `createBlank` method is notable for its use of cloning its own prototype. This method has two optional parameters:
+`$isIdnToAscii` and `$updateStrategy`, which determine whether the host should be converted to punycode and what URL
+update strategy should be used.
 
-Первый параметр, `$isIdnToAscii` - определяет необходимость преобразования хоста. Если он принимает значение `true`,
-хост преобразуется, если же `false` - преобразование хоста не происходит.
+The first parameter, `$isIdnToAscii`, determines whether the host should be converted. If it is set to `true`, the host
+is converted, and if it is `false`, no conversion of the host occurs.
 
-Второй параметр, `$updateStrategy` - определяет стратегию обновления URL. Стратегия включает в себя методы создания
-составляющих URL-адреса.
+The second parameter, `$updateStrategy`, determines the URL update strategy. The strategy involves methods for creating
+the components of the URL.
 
-Чтобы создать новый экземпляр класса `Compass\Url` с помощью оператора `new` необходимо передать один
-обязательный параметр - это исходный URL в виде строки.
+To create a new instance of the `Compass\Url` class using the `new` operator, one must pass one required parameter - the
+original URL as a string.
 
-### Варианты сборки URL
+### Methods For Generating URLs
 
-Параметры можно устанавливать с помощью:
+Parameters can be set using:
 
-- конструктора
-- метода `$url->setSource(string $src);`
-- метода `$url->setAll(array $parts);`
-- методов отвечающих за конкретную часть Url (как показано в быстром старте).
+- the constructor
+- the `setSource` method
+- the `setAll` method
+- methods specific to a particular part of the URL (as shown in the quick start).
 
-### Примеры
+### Examples
 
-#### **Через конструктор**
+#### **Through the constructor**
 
 ```php
 $url = new Url('http://grigor:password@vinograd.soft:8080/path/to/resource?query=value#fragment');
 ```
 
-#### **С помощью метода `$url->setSource(string $src);`**
+#### **Using the `setSource` method**
 
 ```php
 $url->setSource('http://grigor:password@vinograd.soft:8080/path/to/resource?query=value#fragment');
 ```
 
-#### **С помощью метода `$url->setAll(array $parts);`**
+#### **Using the `setAll` method**
 
 ```php
 $url->setAll([
@@ -119,7 +116,7 @@ $url->setAll([
 ]);
 ```
 
-#### **С помощью методов отвечающих за конкретную часть Url.**
+#### **Using methods responsible for a specific part of Url.**
 
 ```php
 $url->setScheme('http')->setUser('grigor')->setPassword('password')->setHost('vinograd.soft')
@@ -127,38 +124,38 @@ $url->setScheme('http')->setUser('grigor')->setPassword('password')->setHost('vi
     ->setArrayQuery(['query' => 'value',])->setFragment('fragment');
 ```
 
-В первых двух вариантах суффикс не распознается. В таких случаях суффикс необходимо установить отдельным методом
-`$url->setSuffix(.json);`, только так вы сможете им управлять.
+In the first two options the suffix is not recognized. In such cases, the suffix must be set using a
+separate `$url->setSuffix(.json);` method, this is the only way you can manage it.
 
-> Суффикс не анализируется, так как он может быть любой строкой, и не обязательно начинаться с точки. Если вы передаете
-> URL с суффиксом, то он становится частью path.
+> The suffix is not parsed since it could be any string and does not have to start with a dot. If you pass a URL with a
+> suffix, it becomes part of the `path`.
 
-### Применение изменений
+### Applying Changes
 
-Чтобы измененные параметры вступили в силу, необходимо вызвать метод `$url->updateSource()`. Этот метод имеет два
-необязательных аргумента - `$updateAbsoluteUrl` и `$suffix`. Значение аргумента `$updateAbsoluteUrl` определяет, будет
-ли обновляться весь URL-адрес или только его относительная часть. По умолчанию его значение равно `true`, другими
-словами, по умолчанию будет пытаться обновить весь URL. Параметр `$suffix` имеет тип `string` и позволяет установить
-суффикс в моменте обновления.
+For the changed parameters to take effect, you must call the `$url->updateSource()` method. This method has two optional
+arguments - `$updateAbsoluteUrl` and `$suffix`. The value of the `$updateAbsoluteUrl` argument determines whether the
+entire URL will be updated or just a relative portion of it. By default its value is `true`, in other words, by default
+it will try to update the entire URL. The `$suffix` parameter is of type `string` and allows you to set the suffix at
+the time of update.
 
-После того как параметры были применены, вы можете получить обновленный результат, методом `$url->getSource()`.
+After the parameters have been applied, you can get the updated result using the `$url->getSource()` method.
 
-### Стратегии обновления
+### Upgrade Strategies
 
-> ***Стратегия обновления*** - это объект, который объединяет все входные данные для создания итогового URL-адреса.
-> Этот объект должен быть реализацией интерфейса `Compass\UrlStrategy`. В системе, класс, который выполняет эту функцию,
-> называется `Compass\DefaultUrlStrategy`. <br>
+> An update strategy is an object that combines all inputs to create a final URL. This object must be an implementation
+> of the `Compass\UrlStrategy` interface. In the system, the class that performs this function is called
+> `Compass\DefaultUrlStrategy`.
 
-Стратегия придумана, для того, чтобы контролировать процесс создания URL. Она содержит набор методов по одному
-на каждый участок URL-адреса, в которых происходит склеивание параметров. Какие методы будут участвовать в
-обновлении определяется в объекте `Compass\Url` на основе состояний участков. Есть некие флаги которые говорят какие
-участки нужно пересоздать. Для простоты восприятия можно провести аналогию с дорогой поделенной на какое-то количество
-участков "A", "B", "C", "D" и дорожной компанией которая за нее ответственна. В идеале дорога должна быть всегда ровная.
-Когда на дороге повреждается какой-нибудь участок, например "С", ремонтная бригада выезжает на этот участок и
-ремонтирует его. Так же можно представить и URL-адрес, где дорога это строка у которой есть логические части - участки.
-Ремонтные бригады - это методы в стратегии обновления. Дорожная компания - это объект `Compass\Url`.
+The strategy was invented in order to control the URL creation process. It contains a set of methods, one for each
+section of the URL where parameters are concatenated. Which methods will participate in the update are determined in the
+`Compass\Url` object based on the states of the sections. There are some flags that indicate which areas need to be
+recreated. To make it easier to understand, we can draw an analogy with a road divided into a certain number of sections
+“A”, “B”, “C”, “D” and the road company that is responsible for it. Ideally, the road should always be smooth. When a
+section of the road, such as "C", is damaged, a repair team goes to that section and repairs it. You can also imagine a
+URL, where the road is a string that has logical parts - sections. Repair teams are methods in the renewal strategy. The
+road company is a `Compass\Url` object.
 
-У стратегии есть шесть методов в которых создаются части URL-адреса:
+The strategy has six methods in which parts of the URL are created:
 
 - `updateAuthority()`
 - `updateBaseUrl()`
@@ -167,39 +164,39 @@ $url->setScheme('http')->setUser('grigor')->setPassword('password')->setHost('vi
 - `updateRelativeUrl()`
 - `updateAbsoluteUrl()`.
 
-Устанавливая какой-либо параметр для URL, система меняет состояние участка, как бы, повреждает тот
-участок для которого был передан параметр. После вызова метода `$url->updateSource();` в работу включаются
-соответствующие методы стратегии.
+By setting any parameter for a URL, the system changes the state of the section, as if damaging the section for which
+the parameter was passed. After calling the `$url->updateSource();` method Appropriate strategy methods are included in
+the work.
 
-> Важно запомнить, что в объекте `Compass\Url` хранятся исходные части, которые передал пользователь и результаты работы
-> каждого метода стратегии.
+> It is important to remember that the `Compass\Url` object stores the initial parts that the user installed and the
+> results of each strategy method.
 
-Выполнение методов можно поделить условно на три уровня.
+The implementation of methods can be divided into three levels.
 
 ```
-                                             УРОВЕНЬ 3
+                                               LEVEL 3
         |--------------------------------updateAbsoluteUrl()---------------------------------|
         |                                                                                    |
-        |                                    УРОВЕНЬ 2                                       |
+        |                                      LEVEL 2                                       |
         |---------------updateBaseUrl()-----------|------------updateRelativeUrl()-----------|
         |                                         |                                          |
-        |                                    УРОВЕНЬ 1                                       |
+        |                                      LEVEL 1                                       |
         |                updateAuthority()        |     updatePath()     updateQuery()       |
         |       /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\ /‾‾‾‾‾‾‾‾\         |
         |http://grigor:password@vinograd.soft:8080/path/to/resource.json?query=value#fragment|
 ```
 
-Метод третьего уровня `updateAbsoluteUrl()` выполняется всегда, в нем соединяются сохраненные результаты работы методов
-второго уровня. Методы второго уровня `updateBaseUrl()` и `updateRelativeUrl()` соединяют результаты работы первого
-уровня. На первом уровне `updateAuthority()`, `updatePath()` и `updateQuery()` склеивают исходные части каждый в своей
-области.
+The third level method `updateAbsoluteUrl()` is always executed; it combines the saved results of the second level
+methods. The second level methods `updateBaseUrl()` and `updateRelativeUrl()` combine the results of the first level. At
+the first level, `updateAuthority()`, `updatePath()` and `updateQuery()` glue the original parts together in their own
+scope.
 
-### Манипуляция состояниями
+### State Manipulation
 
-Состояния хранятся в нескольких полях класса `Compass\Url`. `$authoritySate`, `$relativeUrlState` и `$schemeState`.
-`$authoritySate` и `$relativeUrlState` имеют тип `int`, `$schemeState` - `bool`. Управление состояниями `$authoritySate`
-и `$relativeUrlState` осуществляются битовыми операциями. Вот пример кода, который показывает их значения по умолчанию
-когда состояние неповрежденное:
+States are stored in several fields of the `Compass\Url` class: `$authoritySate`, `$relativeUrlState`
+and `$schemeState`. `$authoritySate` and `$relativeUrlState` are of type `int`, `$schemeState` is of type `bool`.
+The `$authoritySate` and `$relativeUrlState` states are controlled by bit operations. Here is a code example that shows
+their default values when the state is intact:
 
 ```php
 const USER_STATE = 1 << 0;
@@ -222,26 +219,25 @@ protected int $relativeUrlState = self::RELATIVE_URL_WHOLE;
 protected bool $schemeState = true;
 ```
 
-Если мы хотим повредить состояние `$relativeUrlState` в области `query`, то мы можем воспользоваться побитовыми
-операторами:
+If we want to corrupt the state of `$relativeUrlState` in the `query` region, we can use bitwise operators:
 
 ```php
 $relativeUrlState &= ~Url::QUERY_STATE;
 ```
 
-Остальными участками можно манипулировать аналогичным способом, исключением является только `$schemeState` ему нужно
-присвоить булево значение.
+The remaining sections can be manipulated in a similar way, with the exception of `$schemeState`, which needs to be
+assigned a boolean value.
 
-### Пример создания своей стратегии
+### An Example Of Creating Your Own Strategy
 
-При построении своего процесса обновления URL, иногда требуется, чтобы выполнился метод который на основе текущего
-состояния не выполниться. В таких случаях используется дополнительный метод `forceUnlockMethod(...)` в котором можно
-изменить текущее состояние определенного участка, тем самым заставить систему выполнить нужный метод.
+When building your URL update process, sometimes you want a method to be executed that, based on the current state, will
+not be executed. In such cases, the additional method `forceUnlockMethod(...)` is used, in which you can change the
+current state of a certain section, thereby forcing the system to execute the desired method.
 
-Это лучше понять на примере. Представим, что нам нужно генерировать URL для реферальных ссылок. Создадим стратегию в
-которой будет добавляться для всех URL с доменом `another.site` параметр `refid` равный `40`.
+This is better understood with an example. Let's imagine that we need to generate URLs for referral links. Let’s create
+a strategy that will add a `refid` parameter equal to `40` for all URLs with the `another.site` domain.
 
-Код стратегии:
+Strategy code:
 
 ```php
 <?php
@@ -291,7 +287,7 @@ class ReferralUrlStrategy extends DefaultUrlStrategy
 }
 ```
 
-Теперь установим стратегию и выведем два URL, один из которых будет целевым, с доменом `another.site`:
+Now let's set the strategy and output two URLs, one of which will be the destination, with the domain `another.site`:
 
 ```php
 $url = Url::createBlank();
@@ -306,26 +302,26 @@ $url->updateSource();
 echo $url->getSource(); # https://vinograd.soft
 ```
 
-На первый взгляд может показаться, что изменение состояния (`$relativeUrlState &= ~Url::QUERY_STATE;`) нужно было
-написать внутри `if` конструкции, но это не так. После того как мы установили хост `vinograd.soft`, вызов
-метода `updateSource()` не привел бы к выполнению метода `updateQuery` нашей стратегии, поскольку не было добавлено ни
-одного параметра штатным способом, который мог бы изменить состояние этого участка. В результате состояние осталось бы
-не поврежденным, обновился бы только участок `baseurl` и сохраненный параметр `refid=40` с прошлого раза, был бы склеен
-с новым `baseurl` который содержит хост `vinograd.soft`.
+At first glance, it might seem that the state change (`$relativeUrlState &= ~Url::QUERY_STATE;`) should have been
+written inside the `if` construct, but this is not the case. After we installed the `vinograd.soft` host, calling
+the `updateSource()` method would not lead to the execution of the `updateQuery` method of our strategy, since not a
+single parameter was added in the normal way that could change the state of this section. As a result, the state would
+remain intact, only the `baseurl` section would be updated and the saved `refid=40` parameter from the last time would
+be merged with the new `baseurl` which contains the `vinograd.soft` host.
 
-Этот пример показывает, что вы не ограничены только штатными методами установки частей URL. Используя стратегии можно
-делать пост обработку результата, например когда нужно экранировать результат для HTML-атрибутов содержащих URL (href,
-src и другие атрибуты этого типа).
+This example shows that you are not limited to just the standard methods of setting URL parts. Using strategies, you can
+post-process the result, for example, when you need to escape the result for HTML attributes containing URLs (href, src
+and other attributes of this type).
 
 ---
 
-## Компонент PATH
+## PATH Component
 
-`Compass\Path` можно охарактеризовать как объектное представление пути к файлу. Он оперирует строкой пути не
-опираясь на реальную файловую систему. Компонент так же как и `Compass\Url` имеет стратегию обновления, которая включает
-в себя один метод `updatePath()`. Важно отметить, что этот компонент не имеет состояний.
+`Compass\Path` can be described as an object representation of a file path. It operates on the path string without
+relying on the actual file system. The component, like `Compass\Url`, has an update strategy, which includes
+one `updatePath()` method. It's important to note that this component is stateless.
 
-### Демонстрация методов
+### Demonstration Of Methods
 
 ```php
 <?php
@@ -376,13 +372,15 @@ echo '<br>', $path; # path/newTo/file.v
 echo '<br>', $path->getLast(); # file.v
 ```
 
-## Тестировать
+## Testing
 
 ``` php composer tests ```
 
+### Contributing
 
-### Содействие
-Пожалуйста, смотрите [ВКЛАД](https://github.com/vinogradsoft/compass/blob/master/CONTRIBUTING.md) для получения подробной информации.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Лицензия
-Лицензия MIT (MIT). Пожалуйста, смотрите [файл лицензии](https://github.com/vinogradsoft/compass/blob/master/LICENSE) для получения дополнительной информации.
+### License
+
+The MIT License (MIT). Please see License [File](LICENSE) for more
+information.
