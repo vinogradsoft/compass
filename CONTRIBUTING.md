@@ -1,9 +1,12 @@
-Thank you for contributing to this project.
+# Contributing
 
-Please submit pull requests to the master branch only.
+Thanks for your contribution to this project.
 
-Please run phpunit.
-
-If you have added something new, create a new unit test. If you have changed something, update all unit tests as necessary.
-
-We aim to achieve 100% code coverage by tests, including checking for PHP errors and exceptional situations. Therefore, make sure your new or modified tests fully cover all changes you have made.
+## Pull requests
++ If you added something new, create a new unit test. If you change anything, update everything if necessary
+  unit tests.
++ We strive to achieve 100% code coverage with tests, including checking for PHP errors and exceptions. That's why
+  Make sure your new or changed tests fully cover all the changes you've made.
++ Make sure you have updated `README.md`.
++ Create feature branches. Only submit pull requests to the master branch.
++ One pull request per feature.
