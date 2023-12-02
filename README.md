@@ -62,7 +62,7 @@ echo '<br><br><b>new URL:</b> ',$url; #http://xn--h1alffa9f.xn--p1ai
 
 ### Creating An Instance Of The Compass\Url Class
 
-The `Compass\Url` class can be instantiated by calling the static `createBlank()` method or by using the new operator.
+The `Compass\Url` class can be instantiated by calling the static `createBlank()` method or by using the `new` operator.
 The `createBlank` method is notable for its use of cloning its own prototype. This method has two optional parameters:
 `$isIdnToAscii` and `$updateStrategy`, which determine whether the host should be converted to punycode and what URL
 update strategy should be used.
