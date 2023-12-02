@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/vinogradsoft/compass/graph/badge.svg?token=S1XRZ1GEY8)](https://codecov.io/gh/vinogradsoft/compass)
 # Compass
 
 > Compass is a library designed to work with URLs and hard disk file paths. It includes tools to simplify manipulation

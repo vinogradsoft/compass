@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/vinogradsoft/compass/graph/badge.svg?token=S1XRZ1GEY8)](https://codecov.io/gh/vinogradsoft/compass)
 # Compass
 
 > Compass - это библиотека, предназначенная для работы с URL-адресами и путями к файлам на жестком диске. В ее состав
