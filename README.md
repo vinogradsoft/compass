@@ -1,10 +1,28 @@
-[![codecov](https://codecov.io/gh/vinogradsoft/compass/graph/badge.svg?token=S1XRZ1GEY8)](https://codecov.io/gh/vinogradsoft/compass)
-# Compass
+<div align="center">
+<img alt="Compass logo" src="banner.svg">
+<br/><br/>
+</div>
+<br/><br/>
+<div align="center">
+<strong>Create reusable applications.</strong>
+<br>
+Open source library.
+<br /><br />
+</div>
 
-> Compass is a library designed to work with URLs and hard disk file paths. It includes tools to simplify manipulation
+<div align="center">
+
+[![codecov](https://codecov.io/gh/vinogradsoft/compass/graph/badge.svg?token=S1XRZ1GEY8)](https://codecov.io/gh/vinogradsoft/compass)
+<img src="https://badgen.net/static/license/MIT/green">
+
+</div>
+
+## What is Compass?
+
+> 👉 Compass is a library designed to work with URLs and hard disk file paths. It includes tools to simplify manipulation
 > of this data. The goal of the library is to facilitate working with URLs and data on file locations.
 
-## General information
+## General Information
 
 Compass can be used in various PHP applications to process file paths and URLs. It includes two main components:
 `Compass\Path` and `Compass\Url`. Both of these components are separate objects and offer a set of methods for simple
@@ -27,7 +45,7 @@ Requires PHP 8.0 or newer.
 
 ## URL Component
 
-### Quick Start
+### 🚀 Quick Start
 
 ```php
 <?php
@@ -86,21 +104,21 @@ Parameters can be set using:
 - the `setAll` method
 - methods specific to a particular part of the URL (as shown in the quick start).
 
-### Examples
+### ⚡ Examples
 
-#### **Through the constructor**
+#### **👉 Through the constructor**
 
 ```php
 $url = new Url('http://grigor:password@vinograd.soft:8080/path/to/resource?query=value#fragment');
 ```
 
-#### **Using the `setSource` method**
+#### **👉 Using the `setSource` method**
 
 ```php
 $url->setSource('http://grigor:password@vinograd.soft:8080/path/to/resource?query=value#fragment');
 ```
 
-#### **Using the `setAll` method**
+#### **👉 Using the `setAll` method**
 
 ```php
 $url->setAll([
@@ -116,7 +134,7 @@ $url->setAll([
 ]);
 ```
 
-#### **Using methods responsible for a specific part of Url.**
+#### **👉 Using methods responsible for a specific part of Url.**
 
 ```php
 $url->setScheme('http')->setUser('grigor')->setPassword('password')->setHost('vinograd.soft')
@@ -127,7 +145,7 @@ $url->setScheme('http')->setUser('grigor')->setPassword('password')->setHost('vi
 In the first two options the suffix is not recognized. In such cases, the suffix must be set using a
 separate `$url->setSuffix(.json);` method, this is the only way you can manage it.
 
-> The suffix is not parsed since it could be any string and does not have to start with a dot. If you pass a URL with a
+> ❗ The suffix is not parsed since it could be any string and does not have to start with a dot. If you pass a URL with a
 > suffix, it becomes part of the `path`.
 
 ### Applying Changes
@@ -142,7 +160,7 @@ After the parameters have been applied, you can get the updated result using the
 
 ### Upgrade Strategies
 
-> An update strategy is an object that combines all inputs to create a final URL. This object must be an implementation
+> 📢 An update strategy is an object that combines all inputs to create a final URL. This object must be an implementation
 > of the `Compass\UrlStrategy` interface. In the system, the class that performs this function is called
 > `Compass\DefaultUrlStrategy`.
 
@@ -168,7 +186,7 @@ By setting any parameter for a URL, the system changes the state of the section,
 the parameter was passed. After calling the `$url->updateSource();` method Appropriate strategy methods are included in
 the work.
 
-> It is important to remember that the `Compass\Url` object stores the initial parts that the user installed and the
+> ❗ It is important to remember that the `Compass\Url` object stores the initial parts that the user installed and the
 > results of each strategy method.
 
 The implementation of methods can be divided into three levels.
@@ -228,7 +246,7 @@ $relativeUrlState &= ~Url::QUERY_STATE;
 The remaining sections can be manipulated in a similar way, with the exception of `$schemeState`, which needs to be
 assigned a boolean value.
 
-### An Example Of Creating Your Own Strategy
+### ⚡ An Example Of Creating Your Own Strategy
 
 When building your URL update process, sometimes you want a method to be executed that, based on the current state, will
 not be executed. In such cases, the additional method `forceUnlockMethod(...)` is used, in which you can change the
@@ -317,11 +335,11 @@ and other attributes of this type).
 
 ## PATH Component
 
-`Compass\Path` can be described as an object representation of a file path. It operates on the path string without
+👉 `Compass\Path` can be described as an object representation of a file path. It operates on the path string without
 relying on the actual file system. The component, like `Compass\Url`, has an update strategy, which includes
 one `updatePath()` method. It's important to note that this component is stateless.
 
-### Demonstration Of Methods
+### 🚀 Demonstration Of Methods
 
 ```php
 <?php
@@ -376,11 +394,10 @@ echo '<br>', $path->getLast(); # file.v
 
 ``` php composer tests ```
 
-### Contributing
+## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### License
+## License
 
-The MIT License (MIT). Please see License [File](LICENSE) for more
-information.
+The MIT License (MIT). Please see License [File](LICENSE) for more information.
